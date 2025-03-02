@@ -2,8 +2,8 @@
 
 We want to test the password rotation and user creation aspects of hashcorp vault with Azure Synapse.
 
-https://www.youtube.com/watch?v=M8PGr-pINnM
-https://www.youtube.com/watch?v=Oyvnicmxmbo
+* https://www.youtube.com/watch?v=M8PGr-pINnM
+* https://www.youtube.com/watch?v=Oyvnicmxmbo
 
 * We can download the vault binary and start it in development mode directly from the downloaded and unzipped directory. 
 
@@ -58,6 +58,8 @@ Success! Enabled the database secrets engine at: database/
 </code>
 
 ## Testing the vault with a sql server hosted inside Azure
+
+<img src="./sqlserver_db_in_vm.png" />
 
 * These are the commands we need to use to create the vault user inside the sql server database and get it ready for managing other users. 
 
