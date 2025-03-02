@@ -24,7 +24,6 @@ docker logs vault-server
 
 C:\Venky\vault_with_synapse_testing\vault_1.18.5_windows_amd64>vault secrets list
 Path          Type         Accessor              Description
-----          ----         --------              -----------
 cubbyhole/    cubbyhole    cubbyhole_52a9a853    per-token private secret storage
 identity/     identity     identity_57deb23f     identity store
 secret/       kv           kv_9576f356           key/value secret storage
