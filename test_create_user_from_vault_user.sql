@@ -1,0 +1,2 @@
+CREATE LOGIN VenkyLocalUser WITH PASSWORD = 'Ganesh20022002!'
+CREATE USER VenkyLocalUser FROM LOGIN VenkyLocalUser
