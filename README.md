@@ -7,15 +7,15 @@ We want to test the password rotation and user creation aspects of hashcorp vaul
 
 * We can download the vault binary and start it in development mode directly from the downloaded and unzipped directory. 
 
-```text
+<code>
 vault server -dev -dev-root-token-id root -dev-tls
-```text
+</code>
 
 <img src="./img_003.png" />
 
 * If we do not want to download and run the vault locally, we can use docker for that purpose.
 
-```text
+<code>
 docker pull hashcorp/vault
 
 docker run -d -p 8200:8200  --rm --name vault-server --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID=tdc-token' -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' hashicorp/vault
@@ -45,17 +45,17 @@ Cluster Name    vault-cluster-70932d19
 Cluster ID      d94f2633-80f8-e750-7b7e-eab2097b4c92
 HA Enabled      false
 
-```text
+</code>
 
 Note the root token from the previous command. We need to use that to connect to the vault.
 We can also go to localhost:8200 and see the vault UI.
 
 * Now we need to enable the database secrets engine.
 
-```text
+<code>
 C:\Venky\vault_with_synapse_testing\vault_1.18.5_windows_amd64>vault secrets enable database
 Success! Enabled the database secrets engine at: database/
-```text
+</code>
 
 ## Testing the vault with a sql server hosted inside Azure
 
@@ -63,7 +63,7 @@ Success! Enabled the database secrets engine at: database/
 
 * These are the commands we need to use to create the vault user inside the sql server database and get it ready for managing other users. 
 
-```text
+<code>
 -- Create Login
 CREATE LOGIN vault_login WITH PASSWORD = 'Ganesh20022002!';
 
@@ -77,11 +77,11 @@ GRANT ALTER ANY CONNECTION TO "vault_login";
 GRANT CONTROL ON SCHEMA::<schema_name> TO "vault_login";
 EXEC sp_addrolemember "db_accessadmin", "vault_login";
 
-```text
+</code>
 
 * Next we perform the actions on the vault to get the database and role created. Once these 2 are created, we can ask for dynamic credentials.
 
-```text
+<code>
 $env:VAULT_HOME = "${env:ProgramFiles}\Vault"
 
 vault write database/config/my-mssql-database plugin_name=mssql-database-plugin connection_url="sqlserver://{{username}}:{{password}}@20.115.57.160:1433"  allowed_roles="my-mssql-database-role" username="vault_login" password="Ganesh20022002!"
@@ -102,7 +102,7 @@ lease_duration     59m58s
 lease_renewable    true
 password           iz5lSu-QOf6FRPIMYZTe
 username           v-root-my-mssql-database-ro-WXlXOdEp0J02Nn9ecu0E-1740884955
-```text
+</code>
 
 ## Testing with Synapse as the SQL Server Engine.
 * A new Synapse workspace is launched inside Azure.
@@ -111,7 +111,7 @@ username           v-root-my-mssql-database-ro-WXlXOdEp0J02Nn9ecu0E-1740884955
 
 * These are the commands we need to execute inside Synapse to make sure that the vault user has the right privileges.
 
-```text
+<code>
 -- Create Login
 CREATE LOGIN vault_login WITH PASSWORD = 'Ganesh20022002!';
 CREATE DATABASE venky_test_db;
@@ -129,7 +129,7 @@ USE master;
 GRANT ALTER ANY LOGIN TO "vault_login";
 GRANT ALTER ANY CONNECTION TO "vault_login";
 ALTER SERVER ROLE [##MS_LoginManager##] ADD MEMBER "vault_login";
-```text
+</code>
 
 * After this we need to check to ensure that the vault_user created has the correct setup and can create users as needed when prompted by the vault. 
 
@@ -137,7 +137,7 @@ ALTER SERVER ROLE [##MS_LoginManager##] ADD MEMBER "vault_login";
 
 <img src="./img_005.png" />
 
-```text
+<code>
 vault write database/config/my-synapse-database plugin_name=mssql-database-plugin connection_url="sqlserver://{{username}}:{{password}}@venkysyn1001-ondemand.sql.azuresynapse.net:1433" allowed_roles="synapse-role" username="vault_login" password="Ganesh20022002!"
 
 vault write database/roles/synapse-role  db_name=my-synapse-database     creation_statements="USE master; CREATE LOGIN [{{name}}] WITH PASSWORD = '{{password}}'; USE venky_test_db; CREATE USER [{{name}}] FOR LOGIN [{{name}}]; GRANT SELECT ON SCHEMA::dbo TO [{{name}}];" default_ttl="1h"   max_ttl="24h"
@@ -151,7 +151,7 @@ lease_duration     1h
 lease_renewable    true
 password           8wsO4BlsGmxkY2-DKVEA
 username           v-root-synapse-role-nzVUr4nQDbuS0dZm6F3U-1740885396
-```text
+</code>
 
 * Now we can login to the Azure synapse using the credentials we have been given.
 
@@ -164,7 +164,7 @@ username           v-root-synapse-role-nzVUr4nQDbuS0dZm6F3U-1740885396
 
 * Running a postgres container locally inside docker and then using the vault postgres secrets engine to get temporary credentials.
 
-```text
+<code>
 docker run  --detach --name learn-postgres -e POSTGRES_USER=root  -e POSTGRES_PASSWORD=rootpassword -p 5432:5432 --rm  postgres
 
 docker exec -i learn-postgres psql -U root -c "CREATE ROLE \"ro\" NOINHERIT;"
@@ -196,7 +196,7 @@ docker exec -i learn-postgres psql -U root -c "SELECT usename, valuntil FROM pg_
 
 vault write -force database/rotate-root/postgres
 Success! Data written to: database/rotate-root/postgres
-```text
+</code>
 
 ## Testing with a postgres database setup on Azure.
 
@@ -207,7 +207,7 @@ Success! Data written to: database/rotate-root/postgres
 <img src="./img_001.png" />
 
 
-```text
+<code>
 vault write database/config/azure_postgres plugin_name=postgresql-database-plugin connection_url="postgresql://{{username}}:{{password}}@venkypostgres1001.postgres.database.azure.com:5432/postgres" allowed_roles=readonly username="venkyadmin" password="Ganesh20022002!"
 Success! Data written to: database/config/azure_postgres
 
@@ -227,4 +227,4 @@ lease_renewable    true
 password           RMcG1H03gPiM2qfu-6wz
 username           v-root-readonly-YaZTj5zXpaE6mA62hPBg-1740883539
 
-```text
+</code>
