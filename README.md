@@ -31,7 +31,6 @@ sys/          system       system_56754b82       system endpoints used for contr
 
 C:\Venky\vault_with_synapse_testing\vault_1.18.5_windows_amd64>vault status
 Key             Value
----             -----
 Seal Type       shamir
 Initialized     true
 Sealed          false
@@ -95,7 +94,6 @@ vault read database/creds/my-mssql-database-role
 
 c:\Venky\vault_with_synapse_testing>vault read database/creds/my-mssql-database-role
 Key                Value
----                -----
 lease_id           database/creds/my-mssql-database-role/rFgYpzOvmzeooX599DjQ2Mmi
 lease_duration     59m58s
 lease_renewable    true
@@ -144,7 +142,6 @@ Success! Data written to: database/roles/synapse-role
 
 c:\Venky\vault_with_synapse_testing>vault read database/creds/synapse-role
 Key                Value
----                -----
 lease_id           database/creds/synapse-role/wb0P2mwO561xAk7PubgOupoE
 lease_duration     1h
 lease_renewable    true
@@ -178,7 +175,6 @@ Success! Data written to: database/roles/readonly
 
 vault read database/creds/readonly
 Key                Value
----                -----
 lease_id           database/creds/readonly/L1E8AzSIyiNAMAGOmVnHVv6O
 lease_duration     59m59s
 lease_renewable    true
@@ -188,7 +184,6 @@ username           v-root-readonly-iQ8exmowkKZPtrN1yqlN-1740882137
 docker exec -i learn-postgres psql -U root -c "SELECT usename, valuntil FROM pg_user;"
 
                      usename                     |        valuntil
--------------------------------------------------+------------------------
  root                                            |
  v-root-readonly-iQ8exmowkKZPtrN1yqlN-1740882137 | 2025-03-02 03:22:22+00
 (2 rows)
@@ -219,7 +214,6 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO "ro";
 
 c:\Venky\vault_with_synapse_testing>vault read database/creds/readonly
 Key                Value
----                -----
 lease_id           database/creds/readonly/t1zMMWJY77yKGXdeUINfj8CT
 lease_duration     59m57s
 lease_renewable    true
