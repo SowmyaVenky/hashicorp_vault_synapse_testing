@@ -182,7 +182,6 @@ password           m91UfS-Ny1UGQn0sTb3q
 username           v-root-readonly-iQ8exmowkKZPtrN1yqlN-1740882137
 
 docker exec -i learn-postgres psql -U root -c "SELECT usename, valuntil FROM pg_user;"
-</code>
 
 
                      usename                     |        valuntil
@@ -194,6 +193,7 @@ docker exec -i learn-postgres psql -U root -c "SELECT usename, valuntil FROM pg_
 vault write -force database/rotate-root/postgres
 Success! Data written to: database/rotate-root/postgres
 
+</code>
 
 ## Testing with a postgres database setup on Azure.
 
